@@ -13,6 +13,10 @@
   color: var(--primary);
 }
 
+.inline-flex {
+  display: inline-flex;
+}
+
 .text-secondary {
   color: var(--secondary);
 }

@@ -17,7 +17,7 @@ export default function HomeMain() {
               traditional recipes served with a modern twist.
             </h4>
             <a
-              href="/reserve"
+              href="/booking"
               role="button"
               className="px-8 py-4 bg-secondary rounded-2xl w-fit text-lg link-black visited-black"
             >

@@ -1,6 +1,32 @@
-export default function AvailibilityForm() {
+import { useState } from "react";
+
+export default function AvailibilityForm({
+  location,
+  persons,
+  date,
+  time,
+  seating,
+  availableTimes,
+  handleLocation,
+  handlePersons,
+  handleDate,
+  handleTime,
+  handleSeating,
+  handleNextStep,
+}) {
+  const handleForm = (e) => {
+    console.log("Form handler called");
+    console.log("Location: ", location);
+    console.log("Persons: ", persons);
+    console.log("Date: ", date);
+    console.log("Time: ", time);
+    console.log("Seating: ", seating);
+    e.preventDefault();
+    handleNextStep();
+  };
+
   return (
-    <form className="text-lg space-y-8">
+    <form className="text-lg space-y-8" onSubmit={handleForm}>
       <div>
         <h3 className="text-xl font-extrabold">RESERVE YOUR TABLE!</h3>
         <p className="text-base">
@@ -16,26 +42,32 @@ export default function AvailibilityForm() {
             <select
               name="location"
               id="location"
+              data-test-id="location"
               className="block w-full h-12 rounded-2xl px-4 text-lg border border-black text-primary"
+              value={location}
+              onChange={handleLocation}
             >
               <option value="chicago">Chicago</option>
-              <option value="chicago">Denver</option>
-              <option value="chicago">California</option>
+              <option value="denver">Denver</option>
+              <option value="california">California</option>
             </select>
           </div>
           <div className="flex-1 space-y-2">
-            <label htmlFor="location" className="font-bold text-lg">
+            <label htmlFor="persons" className="font-bold text-lg">
               # of People
             </label>
             <select
-              name="location"
-              id="location"
+              name="persons"
+              id="persons"
+              data-test-id="persons"
               className="block w-full h-12 rounded-2xl px-4 text-lg border border-black text-primary"
+              value={persons}
+              onChange={handlePersons}
             >
-              <option value="1">1 Person</option>
-              <option value="2">2 People</option>
-              <option value="3">3 People</option>
-              <option value="4">4 People</option>
+              <option value={1}>1 Person</option>
+              <option value={2}>2 People</option>
+              <option value={3}>3 People</option>
+              <option value={4}>4 People</option>
             </select>
           </div>
         </div>
@@ -44,34 +76,61 @@ export default function AvailibilityForm() {
             <label htmlFor="date" className="font-bold text-lg">
               Date
             </label>
-            <button
+            <input
+              type="date"
               name="date"
               id="date"
-              className="block w-full h-12 rounded-2xl px-8 text-lg border border-black bg-white text-left text-primary"
-            >
-              SEPTEMBER 26, 2024
-            </button>
+              data-test-id="date"
+              className="block w-full h-12 rounded-2xl px-4 text-lg border border-black bg-white text-left text-primary"
+              value={date}
+              onChange={handleDate}
+            />
           </div>
           <div className="flex-1 space-y-2">
             <label htmlFor="time" className="font-bold text-lg">
               Time
             </label>
-            <button
+            <select
               name="time"
               id="time"
-              className="block w-full h-12 rounded-2xl px-4 text-lg border border-black bg-white text-left text-primary"
+              data-test-id="time"
+              className="block w-full h-12 rounded-2xl px-4 text-lg border border-black text-primary"
+              value={time}
+              onChange={handleTime}
             >
-              7:00 PM
-            </button>
+              {availableTimes.map((time) => {
+                return (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
         <div className="space-y-2">
           <label className="font-bold text-lg">Seating</label>
           <div className="space-x-4">
-            <button className="h-12 rounded-2xl px-8 text-lg border border-black bg-primary text-white">
+            <button
+              type="button"
+              className={`h-12 rounded-2xl px-8 text-lg border border-black ${
+                seating === "indoor"
+                  ? "bg-primary text-white"
+                  : "bg-white text-primary"
+              }`}
+              onClick={() => handleSeating("indoor")}
+            >
               Indoor
             </button>
-            <button className="h-12 rounded-2xl px-8 text-lg border border-black bg-white text-primary">
+            <button
+              type="button"
+              className={`h-12 rounded-2xl px-8 text-lg border border-black ${
+                seating === "indoor"
+                  ? "bg-white text-primary"
+                  : "bg-primary text-white"
+              }`}
+              onClick={() => handleSeating("oudoor")}
+            >
               Outdoor
             </button>
           </div>
@@ -88,7 +147,10 @@ export default function AvailibilityForm() {
           reservation, please call us directly and we will assist you.
         </p>
       </div>
-      <button className="h-12 rounded-2xl px-8 text-lg border border-black bg-secondary">
+      <button
+        type="submit"
+        className="h-12 rounded-2xl px-8 text-lg border border-black bg-secondary"
+      >
         Check Availability
       </button>
     </form>

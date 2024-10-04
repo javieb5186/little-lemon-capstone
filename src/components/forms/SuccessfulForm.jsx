@@ -7,10 +7,13 @@ export default function SuccessfulForm() {
         You may now return to home or browse our menu in anticipation to your
         arrival.
       </p>
-      <div className="space-x-4">
-        <button className="h-12 rounded-2xl px-8 text-lg border border-black bg-primary text-white">
+      <div className="flex justify-center items-center space-x-4">
+        <a
+          href="/"
+          className="inline-flex items-center h-12 rounded-2xl px-8 text-lg border border-black bg-primary text-white"
+        >
           Back to Home
-        </button>
+        </a>
         <button className="h-12 rounded-2xl px-8 text-lg border border-black bg-secondary">
           Menu
         </button>

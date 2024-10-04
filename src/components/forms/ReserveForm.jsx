@@ -4,13 +4,46 @@ import { ReactComponent as Calendar } from "../../assets/calendar.svg";
 import { ReactComponent as Clock } from "../../assets/clock.svg";
 import { ReactComponent as Chair } from "../../assets/chair.svg";
 
-export default function ReserveForm() {
+export default function ReserveForm({
+  firstName,
+  lastName,
+  email,
+  phone,
+  occasion,
+  requests,
+  firstTime,
+  handleFirstName,
+  handleLastName,
+  handleEmail,
+  handlePhone,
+  handleOccasion,
+  handleRequests,
+  handleFirstTime,
+  handleNextStep,
+  handlePrevStep,
+}) {
+  const handleForm = (e) => {
+    e.preventDefault();
+    console.log("Form handler called");
+    console.log("First name: ", firstName);
+    console.log("Last name: ", lastName);
+    console.log("Email: ", email);
+    console.log("Phone: ", phone);
+    console.log("Occasion: ", occasion);
+    console.log("Requests: ", requests);
+    console.log("First time?: ", firstTime);
+    handleNextStep();
+  };
+
   return (
-    <form className="space-y-8">
+    <form className="space-y-8" onSubmit={handleForm}>
       <div>
         <div className="flex justify-between items-center">
           <h3 className="text-xl">ALMOST DONE!</h3>
-          <button className="h-12 rounded-2xl px-8 text-lg border border-black bg-secondary">
+          <button
+            className="h-12 rounded-2xl px-8 text-lg border border-black bg-secondary"
+            onClick={handlePrevStep}
+          >
             Back
           </button>
         </div>
@@ -62,6 +95,8 @@ export default function ReserveForm() {
             id="first-name"
             placeholder="Your first name"
             className="block w-full h-12 rounded-2xl px-4 text-lg border border-black text-primary placeholder-text-primary"
+            value={firstName}
+            onChange={handleFirstName}
           />
         </div>
         <div className="flex-1 space-y-2">
@@ -74,6 +109,8 @@ export default function ReserveForm() {
             id="last-name"
             placeholder="Your last name"
             className="block w-full h-12 rounded-2xl px-4 text-lg border border-black text-primary placeholder-text-primary"
+            value={lastName}
+            onChange={handleLastName}
           />
         </div>
       </div>
@@ -88,6 +125,8 @@ export default function ReserveForm() {
             id="email"
             placeholder="example@domain.com"
             className="block w-full h-12 rounded-2xl px-4 text-lg border border-black text-primary placeholder-text-primary"
+            value={email}
+            onChange={handleEmail}
           />
         </div>
         <div className="flex-1 space-y-2">
@@ -100,6 +139,8 @@ export default function ReserveForm() {
             id="phone"
             placeholder="xxx-xxx-xxxx"
             className="block w-full h-12 rounded-2xl px-4 text-lg border border-black text-primary placeholder-text-primary"
+            value={phone}
+            onChange={handlePhone}
           />
         </div>
       </div>
@@ -112,6 +153,8 @@ export default function ReserveForm() {
             name="occasion"
             id="occasion"
             className="block w-full h-12 rounded-2xl px-4 text-lg border border-black text-primary"
+            value={occasion}
+            onChange={handleOccasion}
           >
             <option value="anniversary">Anniversary</option>
             <option value="date">Date night</option>
@@ -133,13 +176,20 @@ export default function ReserveForm() {
             id="requests"
             rows={10}
             className="block w-full h-60 rounded-2xl px-4 text-lg border border-black text-primary placeholder-text-primary"
+            value={requests}
+            onChange={handleRequests}
           />
         </div>
         <div className="flex-1" />
       </div>
       <div className="space-y-2">
         <div className="flex gap-x-4">
-          <input type="checkbox" className="accent-primary w-6 h-6" />
+          <input
+            type="checkbox"
+            className="accent-primary w-6 h-6"
+            value={firstTime}
+            onChange={handleFirstTime}
+          />
           <p>First time?</p>
         </div>
         <p>
@@ -176,7 +226,10 @@ export default function ReserveForm() {
         </p>
       </article>
       <div className="space-x-4">
-        <button className="h-12 rounded-2xl px-8 text-lg border border-black bg-secondary">
+        <button
+          type="submit"
+          className="h-12 rounded-2xl px-8 text-lg border border-black bg-secondary"
+        >
           Reserve
         </button>
         <button className="h-12 rounded-2xl px-8 text-lg border border-black bg-primary text-white">
