@@ -3,10 +3,11 @@ import { useState } from "react";
 export default function AvailibilityForm({
   location,
   persons,
+  todaysDate,
   date,
   time,
   seating,
-  availableTimes,
+  availableTimes = [],
   handleLocation,
   handlePersons,
   handleDate,
@@ -15,15 +16,11 @@ export default function AvailibilityForm({
   handleNextStep,
 }) {
   const handleForm = (e) => {
-    console.log("Form handler called");
-    console.log("Location: ", location);
-    console.log("Persons: ", persons);
-    console.log("Date: ", date);
-    console.log("Time: ", time);
-    console.log("Seating: ", seating);
     e.preventDefault();
     handleNextStep();
   };
+
+  console.log(todaysDate);
 
   return (
     <form className="text-lg space-y-8" onSubmit={handleForm}>
@@ -80,10 +77,11 @@ export default function AvailibilityForm({
               type="date"
               name="date"
               id="date"
-              data-test-id="date"
+              data-testid="date"
               className="block w-full h-12 rounded-2xl px-4 text-lg border border-black bg-white text-left text-primary"
               value={date}
               onChange={handleDate}
+              min={todaysDate}
             />
           </div>
           <div className="flex-1 space-y-2">
@@ -106,6 +104,12 @@ export default function AvailibilityForm({
                 );
               })}
             </select>
+            {!availableTimes.length && (
+              <p className="text-red">
+                UH-OH: Looks like there are no reservations available for today.
+                Please select a different day.
+              </p>
+            )}
           </div>
         </div>
         <div className="space-y-2">
@@ -149,7 +153,11 @@ export default function AvailibilityForm({
       </div>
       <button
         type="submit"
-        className="h-12 rounded-2xl px-8 text-lg border border-black bg-secondary"
+        className={`h-12 rounded-2xl px-8 text-lg border border-black ${
+          !availableTimes.length ? "bg-disabled" : "bg-secondary"
+        }`}
+        disabled={!availableTimes.length}
+        aria-label="Check availability"
       >
         Check Availability
       </button>

@@ -1,20 +1,25 @@
 import { useState, useReducer } from "react";
-
 import AvailibilityForm from "../forms/AvailibilityForm";
 import ReserveForm from "../forms/ReserveForm";
 import SuccessfulForm from "../forms/SuccessfulForm";
 import initializeTimes from "../../utils/initializeTimes";
 import updateTimes from "../../utils/updateTimes";
 import { submitAPI } from "../../utils/submitAPI";
-import { useNavigate } from "react-router-dom";
 
 export default function ReserveMain() {
-  const todaysDate = new Date();
+  const currentDate = new Date();
+  const localeDate = currentDate.toLocaleDateString().split("/");
+  const [month, day, year] = localeDate;
+  const [todaysDate] = useState(
+    `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`
+  );
   const [location, setLocation] = useState("chicago");
   const [persons, setPersons] = useState(2);
-  const [date, setDate] = useState(todaysDate.toISOString().slice(0, 10));
+  const [date, setDate] = useState(
+    `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`
+  );
   const [time, setTime] = useState(
-    todaysDate.toTimeString().slice(0, 2) + ":00"
+    currentDate.toTimeString().slice(0, 2) + ":00"
   );
   const [seating, setSeating] = useState("indoor");
 
@@ -93,6 +98,7 @@ export default function ReserveMain() {
           <AvailibilityForm
             location={location}
             persons={persons}
+            todaysDate={todaysDate}
             date={date}
             time={time}
             seating={seating}
@@ -107,6 +113,11 @@ export default function ReserveMain() {
         )}
         {steps === 2 && (
           <ReserveForm
+            location={location}
+            persons={persons}
+            date={date}
+            time={time}
+            seating={seating}
             firstName={firstName}
             lastName={lastName}
             email={email}
